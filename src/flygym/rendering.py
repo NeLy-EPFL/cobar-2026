@@ -1,8 +1,9 @@
 from multiprocessing import Process
 from pathlib import Path
-from typing import Any
+from typing import Any, Iterable
 from os import PathLike
 from collections.abc import Sequence
+from scipy.spatial.transform import Rotation
 
 import mujoco as mj
 import mujoco.viewer as mjviewer
@@ -25,11 +26,13 @@ class Renderer:
         camera_res: tuple[int, int] = (240, 320),
         playback_speed: float = 0.2,
         output_fps: int = 25,
+        stabilized_cam_indices: Iterable[int] = None,
         **kwargs: Any,
     ):
         self.mj_model = mj_model
         self._cameras_intern_id_lookup = self._resolve_camera_spec(camera)
         self.camera_res = camera_res
+        self.stabilized_cam_indices = set() if stabilized_cam_indices is None else set(stabilized_cam_indices)
 
         nrows, ncols = camera_res
         self.mj_renderer = mj.Renderer(mj_model, nrows, ncols, **kwargs)
@@ -40,6 +43,8 @@ class Renderer:
 
         self._last_render_time_sec = -np.inf
         self.frames = {cam_name: [] for cam_name in self._cameras_intern_id_lookup}
+
+        self._init_cam_state = {}
 
     def _resolve_camera_spec(
         self, spec: CameraSpec | Sequence[CameraSpec]
@@ -78,10 +83,29 @@ class Renderer:
             resolved[full_id] = internal_cam_id
         return resolved
 
+    def _stabilize_cam(self, cam):
+        if cam.id not in self._init_cam_state:
+            self._init_cam_state[cam.id] = {
+                "xmat": cam.xmat.copy(),
+                "xpos": cam.xpos.copy(),
+            }
+
+        mat = cam.xmat.reshape(3, 3)
+        z = mat[:, 2]
+        y = np.array([0, 0, 1])
+        x = np.cross(y, z)
+        z = np.cross(x, y)
+        mat[:, 0] = x
+        mat[:, 1] = y
+        mat[:, 2] = z
+        cam.xpos[2] = self._init_cam_state[cam.id]["xpos"][2]
+
     def render_as_needed(self, mj_data: mj.MjData) -> bool:
         if mj_data.time >= self._last_render_time_sec + self._secs_between_renders:
             self._last_render_time_sec = mj_data.time
-            for cam_name, internal_cam_id in self._cameras_intern_id_lookup.items():
+            for i, (cam_name, internal_cam_id) in enumerate(self._cameras_intern_id_lookup.items()):
+                if i in self.stabilized_cam_indices:
+                    self._stabilize_cam(mj_data.cam(internal_cam_id))
                 self.mj_renderer.update_scene(mj_data, internal_cam_id)
                 frame = self.mj_renderer.render()
                 self.frames[cam_name].append(frame)
@@ -162,7 +186,13 @@ class Renderer:
             output_path.parent.mkdir(parents=True, exist_ok=True)
             iio.imwrite(path, frames, fps=self.output_fps, codec="libx264", **kwargs)
 
-    def reset(self):
+    def reset(self, mj_data: mj.MjData) -> None:
+        for cam_name, internal_cam_id in self._cameras_intern_id_lookup.items():
+            cam = mj_data.cam(internal_cam_id)
+            self._init_cam_state[internal_cam_id] = {
+                "xmat": cam.xmat.copy(),
+                "xpos": cam.xpos.copy(),
+            }
         self.frames = {cam_name: [] for cam_name in self._cameras_intern_id_lookup}
 
 

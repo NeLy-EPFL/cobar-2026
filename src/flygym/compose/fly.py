@@ -321,6 +321,20 @@ class Fly(BaseCompositionElement):
         self._rebuild_neutral_keyframe()
         return return_dict
 
+    def add_antenna_joints(self, stiffness: float = 0.01, damping: float = 1e-3):
+        """Add ball joints to the funiculus segments of the antennae."""
+        return_dict = {}
+        for s in "lr":
+            body = self.mjcf_root.find("body", f"{s}_funiculus")
+            return_dict[f"{s}_funiculus"] = body.add(
+                "joint",
+                name=f"{s}_funiculus_ball_joint",
+                type="ball",
+                stiffness=stiffness,
+                damping=damping,
+            )
+        return return_dict
+
     def add_actuators(
         self,
         jointdofs: Iterable[JointDOF],
@@ -585,7 +599,7 @@ class Fly(BaseCompositionElement):
         geom_element = body_element.add(
             "geom",
             name=segment.name,
-            type="mesh",
+            type=my_rigging_config.get("type", "mesh"),
             mesh=segment.name,
             mass=my_rigging_config["mass"],
             contype=0,  # contact pairs to be added explicitly later

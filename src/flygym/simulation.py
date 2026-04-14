@@ -51,10 +51,11 @@ class Simulation:
             self.mj_model, mujoco.mjtObj.mjOBJ_KEY, "neutral"
         )
         mujoco.mj_resetDataKeyframe(self.mj_model, self.mj_data, neutral_keyframe_id)
+        mujoco.mj_forward(self.mj_model, self.mj_data)
 
         # Reset renderers
         if self.renderer is not None:
-            self.renderer.reset()
+            self.renderer.reset(self.mj_data)
 
         # Stuff for performance profiling
         self._curr_step = 0
@@ -120,13 +121,13 @@ class Simulation:
         return self.mj_data.xquat[internal_ids, :]
 
     def get_olfaction(
-        self, fly_name: str
+        self, fly_name: str, **kwargs
     ) -> Float[np.ndarray, "n_sensors n_odor_dimensions"]:
         if callable(getattr(self.world, "get_olfaction", None)):
             internal_ids = self._intern_odor_sensorids_by_fly[fly_name]
             indices = self.mj_model.sensor_adr[internal_ids][:, None] + np.arange(3)
             sensor_positions = self.mj_data.sensordata[indices]
-            return getattr(self.world, "get_olfaction")(sensor_positions)
+            return getattr(self.world, "get_olfaction")(sensor_positions, **kwargs)
         else:
             raise NotImplementedError("The current world does not support olfaction.")
 
@@ -157,6 +158,25 @@ class Simulation:
                     contact_forces[i] -= normal * adhesion_force_magnitudes[i]
 
         return contact_forces
+
+    def get_antenna_data(self, fly_name: str) -> dict[str, dict[str, np.ndarray]]:
+        return_dict = {}
+        for side in ["l", "r"]:
+            try:
+                data = self.mj_data.joint(f"{fly_name}/{side}_funiculus_ball_joint")
+            except KeyError:
+                raise NotImplementedError(
+                    "The fly does not have the expected antenna joints. "
+                    "Make sure to add ball joints to the funiculus segments in the fly construction "
+                    "by calling fly.add_antenna_joints()"
+                )
+            return_dict[side] = {
+                "qpos": data.qpos.copy(),
+                "qvel": data.qvel.copy(),
+                "qacc": data.qacc.copy(),
+                "qfrc_passive": data.qfrc_passive.copy(),
+            }
+        return return_dict
 
     @cached_property
     def eye_renderer(self):

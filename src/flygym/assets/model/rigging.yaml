@@ -39,8 +39,8 @@ l_eye:
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 1.25e-05
 l_pedicel:
-  pos: [0.429, 0.0862, 0.0826]
-  quat: [1.0, 0.0, 0.0, 0.0]
+  pos: [0.429, 0.086, 0.083]
+  quat: [1, 0, 0, 0]
   mass: 8.66e-07
 l_funiculus:
   pos: [0.051, -0.000563, -0.0441]
@@ -55,7 +55,7 @@ l_haltere:
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 1.42e-06
 l_wing:
-  pos: [-0.544, 0.37, 0.181]
+  pos: [-0.674, 0.395, 0.081]
   quat: [0.707, 0.0, 0.0, 0.707]
   mass: 2.5e-06
 r_eye:
@@ -63,8 +63,8 @@ r_eye:
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 1.09e-05
 r_pedicel:
-  pos: [0.429, -0.0862, 0.0826]
-  quat: [1.0, 0.0, 0.0, 0.0]
+  pos: [0.429, -0.086, 0.083]
+  quat: [1, 0, 0, 0]
   mass: 8.62e-07
 r_funiculus:
   pos: [0.051, 0.000563, -0.0441]
@@ -79,7 +79,7 @@ r_haltere:
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 1.42e-06
 r_wing:
-  pos: [-0.544, -0.37, 0.181]
+  pos: [-0.674, -0.395, 0.081]
   quat: [0.707, 0.0, 0.0, -0.707]
   mass: 2.5e-06
 lf_coxa:
@@ -98,22 +98,27 @@ lf_tarsus1:
   pos: [-0.000144, -0.000952, -0.518]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 4.65e-07
+  type: capsule
 lf_tarsus2:
   pos: [0.00182, -0.000977, -0.225]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 2.09e-07
+  type: capsule
 lf_tarsus3:
   pos: [0.00136, -0.000178, -0.154]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 1.19e-07
+  type: capsule
 lf_tarsus4:
   pos: [0.00169, 0.000303, -0.0985]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 9.27e-08
+  type: capsule
 lf_tarsus5:
   pos: [0.00171, -0.000216, -0.087]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 1.15e-07
+  type: capsule
 lm_coxa:
   pos: [-0.557, 0.125, -0.482]
   quat: [1.0, 0.0, 0.0, 0.0]
@@ -130,22 +135,27 @@ lm_tarsus1:
   pos: [6.58e-05, -0.00037, -0.667]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 5.25e-07
+  type: capsule
 lm_tarsus2:
   pos: [0.000512, -9.8e-05, -0.292]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 2.35e-07
+  type: capsule
 lm_tarsus3:
   pos: [-2.81e-05, -0.000153, -0.16]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 1.18e-07
+  type: capsule
 lm_tarsus4:
   pos: [-0.000126, -0.000191, -0.0911]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 6.84e-08
+  type: capsule
 lm_tarsus5:
   pos: [0.000902, 9.86e-05, -0.0635]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 1.14e-07
+  type: capsule
 lh_coxa:
   pos: [-0.784, 0.087, -0.497]
   quat: [1.0, 0.0, 0.0, 0.0]
@@ -162,22 +172,27 @@ lh_tarsus1:
   pos: [-8.94e-07, -0.000324, -0.684]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 1.04e-06
+  type: capsule
 lh_tarsus2:
   pos: [9.69e-05, 0.00051, -0.353]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 3.52e-07
+  type: capsule
 lh_tarsus3:
   pos: [0.000123, -0.000255, -0.175]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 1.35e-07
+  type: capsule
 lh_tarsus4:
   pos: [-0.000256, 0.000331, -0.0967]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 9.01e-08
+  type: capsule
 lh_tarsus5:
   pos: [0.000214, 5.86e-05, -0.0733]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 1.25e-07
+  type: capsule
 rf_coxa:
   pos: [-0.161, -0.172, -0.23]
   quat: [1.0, 0.0, 0.0, 0.0]
@@ -194,22 +209,27 @@ rf_tarsus1:
   pos: [-0.000144, 0.000952, -0.518]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 4.65e-07
+  type: capsule
 rf_tarsus2:
   pos: [0.00182, 0.000977, -0.225]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 2.09e-07
+  type: capsule
 rf_tarsus3:
   pos: [0.00136, 0.000178, -0.154]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 1.19e-07
+  type: capsule
 rf_tarsus4:
   pos: [0.00169, -0.000303, -0.0985]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 9.27e-08
+  type: capsule
 rf_tarsus5:
   pos: [0.00171, 0.000216, -0.087]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 1.15e-07
+  type: capsule
 rm_coxa:
   pos: [-0.557, -0.125, -0.482]
   quat: [1.0, 0.0, 0.0, 0.0]
@@ -226,22 +246,27 @@ rm_tarsus1:
   pos: [6.58e-05, 0.00037, -0.667]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 5.25e-07
+  type: capsule
 rm_tarsus2:
   pos: [0.000512, 9.8e-05, -0.292]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 2.35e-07
+  type: capsule
 rm_tarsus3:
   pos: [-2.81e-05, 0.000153, -0.16]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 1.18e-07
+  type: capsule
 rm_tarsus4:
   pos: [-0.000126, 0.000191, -0.0911]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 6.84e-08
+  type: capsule
 rm_tarsus5:
   pos: [0.000902, -9.86e-05, -0.0635]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 1.14e-07
+  type: capsule
 rh_coxa:
   pos: [-0.784, -0.087, -0.497]
   quat: [1.0, 0.0, 0.0, 0.0]
@@ -258,19 +283,24 @@ rh_tarsus1:
   pos: [-8.94e-07, 0.000324, -0.684]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 1.04e-06
+  type: capsule
 rh_tarsus2:
   pos: [9.69e-05, -0.00051, -0.353]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 3.52e-07
+  type: capsule
 rh_tarsus3:
   pos: [0.000123, 0.000255, -0.175]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 1.35e-07
+  type: capsule
 rh_tarsus4:
   pos: [-0.000256, -0.000331, -0.0967]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 9.01e-08
+  type: capsule
 rh_tarsus5:
   pos: [0.000214, -5.86e-05, -0.0733]
   quat: [1.0, 0.0, 0.0, 0.0]
   mass: 1.25e-07
+  type: capsule

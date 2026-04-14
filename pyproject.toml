@@ -40,17 +40,15 @@ dependencies = [
     "scikit-learn>=1.8.0",
     "numba>=0.64.0",
     "torch>=2.10.0",
-    "opencv-python-headless>=4.13.0.92",
+    "opencv-python>=4.13.0.92",
+    "pygame>=2.6.1",
 ]
 
 [project.optional-dependencies]
-warp = [
-    "warp-lang>=1.11,<1.12",
-    "mujoco_warp>=3.5,<3.6",
-]
+warp = ["warp-lang>=1.11,<1.12", "mujoco_warp>=3.5,<3.6"]
 dev = [
     "pytest>=9.0,<10.0",
-    "nbstripout==0.9.0",  # git pre-commit filter: strips output from ipynb notebooks
+    "nbstripout==0.9.0", # git pre-commit filter: strips output from ipynb notebooks
 ]
 
 [project.urls]
@@ -64,7 +62,7 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-package-dir = {"" = "src"}
+package-dir = { "" = "src" }
 include-package-data = true
 
 [tool.setuptools.packages.find]

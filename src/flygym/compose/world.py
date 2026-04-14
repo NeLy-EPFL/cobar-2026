@@ -170,6 +170,7 @@ class BaseWorld(BaseCompositionElement, ABC):
         pos: Vec3 = (0, 0, 35),
         rotation: Rotation3D = Rotation3D("euler", (0, 0, 0)),
         fovy: float = 45,
+        **kwargs,
     ):
         camera = self.mjcf_root.worldbody.add(
             "camera",
@@ -178,6 +179,7 @@ class BaseWorld(BaseCompositionElement, ABC):
             pos=pos,
             fovy=fovy,
             **rotation.as_kwargs(),
+            **kwargs,
         )
         return camera
 
